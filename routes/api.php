@@ -36,8 +36,13 @@ Route::group(['prefix' => 'user','middleware' => 'withauth'], function() {
     Route::post('/verify-upgrade', [\App\Http\Controllers\orderController::class,'verifyUpgrade']);
 
     Route::group(['prefix' => 'wallet'], function() {
+//bank
         Route::post('/bank-accounts', [\App\Http\Controllers\BankAccountController::class,'addBankAccount']);
         Route::patch('/bank-accounts/{id}', [\App\Http\Controllers\BankAccountController::class,'editBankAccount']);
+//card
+        Route::post('/card-accounts', [\App\Http\Controllers\CardController::class,'addCardAccount']);
+        Route::patch('/card-accounts/{id}', [\App\Http\Controllers\CardController::class,'editCardAccount']);
+
     });
 
 
