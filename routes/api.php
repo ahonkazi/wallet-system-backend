@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,9 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'auth'], function() {
     Route::post('/register', [\App\Http\Controllers\authController::class,'register']);
-  	Route::post('/login', [\App\Http\Controllers\authController::class,'login']);
+    Route::post('/login', [\App\Http\Controllers\authController::class,'login']);
 });
 
-Route::group(['prefix' => 'admin'], function() {
-    Route::post('/boot', [\App\Http\Controllers\roleController::class,'createRole']);
+Route::group(['prefix' => 'admin','middleware' => 'withauth'], function() {
+    Route::post('/package', [\App\Http\Controllers\packageController::class,'createPackage']);
+    
 });
