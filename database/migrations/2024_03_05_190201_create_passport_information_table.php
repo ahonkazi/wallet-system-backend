@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->bigInteger("passport_number");
             $table->date('exp_date');
-            $table->integer('country');
+            $table->string('country');
             $table->timestamps();
         });
     }

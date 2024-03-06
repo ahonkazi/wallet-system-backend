@@ -49,6 +49,9 @@ Route::group(['prefix' => 'user', 'middleware' => 'withauth'], function () {
         //    nid
         Route::patch('/nid-information/{id}', [\App\Http\Controllers\NidController::class, 'editNidInformation']);
         Route::post('/nid-information', [\App\Http\Controllers\NidController::class, 'addNidInformation']);
+     //    passport
+        Route::patch('/passport-information/{id}', [\App\Http\Controllers\PassportController::class, 'editPassportInformation']);
+        Route::post('/passport-information', [\App\Http\Controllers\PassportController::class, 'addPassportInformation']);
 
     });
 
