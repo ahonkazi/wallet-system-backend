@@ -28,6 +28,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'withauth'], function () {
 });
 
 Route::group(['prefix' => 'user', 'middleware' => 'withauth'], function () {
+    Route::get('/settings', [\App\Http\Controllers\userController::class, 'getUserSettings']);
     Route::post('/order', [\App\Http\Controllers\orderController::class, 'placeOrder']);
     Route::post('/verify-order', [\App\Http\Controllers\orderController::class, 'verifyOrder']);
     Route::get('/orders', [\App\Http\Controllers\orderController::class, 'getMyOrders']);
@@ -35,7 +36,6 @@ Route::group(['prefix' => 'user', 'middleware' => 'withauth'], function () {
     Route::post('/verify-upgrade', [\App\Http\Controllers\orderController::class, 'verifyUpgrade']);
 
     Route::group(['prefix' => 'wallet'], function () {
-
         //bank
         Route::patch('/bank-accounts/{id}', [\App\Http\Controllers\BankAccountController::class, 'editBankAccount']);
         Route::post('/bank-accounts', [\App\Http\Controllers\BankAccountController::class, 'addBankAccount']);
@@ -43,7 +43,6 @@ Route::group(['prefix' => 'user', 'middleware' => 'withauth'], function () {
         //card
         Route::patch('/card-accounts/{id}', [\App\Http\Controllers\CardController::class, 'editCardAccount']);
         Route::post('/card-accounts', [\App\Http\Controllers\CardController::class, 'addCardAccount']);
-
     });
     Route::group(['prefix' => 'identity','middleware'=>'IdentityMiddleware'], function () {
         //    nid
