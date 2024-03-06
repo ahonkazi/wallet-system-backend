@@ -22,6 +22,10 @@ Route::group(['prefix' => 'auth'], function() {
 Route::group(['prefix' => 'admin','middleware' => 'withauth'], function() {
     Route::post('/package', [\App\Http\Controllers\packageController::class,'createPackage']);
     Route::post('/create-role', [\App\Http\Controllers\roleController::class,'createRole']);
+    Route::post('/create-permission', [\App\Http\Controllers\roleController::class,'createPermission']);
+    Route::post('/assign-role', [\App\Http\Controllers\roleController::class,'assignRole']);
+    Route::post('/assign-permission', [\App\Http\Controllers\roleController::class,'assignPermission']);
+
 
 });
 
