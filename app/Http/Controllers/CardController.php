@@ -37,7 +37,7 @@ class CardController extends Controller
             $cardAccount->cvv = $request->cvv;
             $cardAccount->card_holder_name = $request->card_holder_name;
             $cardAccount->save();
-            return response()->json(['message' => 'Card account added.', 'card' => $cardAccount], 500);
+            return response()->json(['message' => 'Card account added.', 'card' => $cardAccount], 201);
 
         } catch (\Exception $exception) {
             return response()->json(['message' => 'Something went wrong.'], 500);

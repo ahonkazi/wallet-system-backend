@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,34 +13,42 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::group(['prefix' => 'auth'], function() {
-    Route::post('/register', [\App\Http\Controllers\authController::class,'register']);
-    Route::post('/login', [\App\Http\Controllers\authController::class,'login']);
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('/register', [\App\Http\Controllers\authController::class, 'register']);
+    Route::post('/login', [\App\Http\Controllers\authController::class, 'login']);
 });
 
-Route::group(['prefix' => 'admin','middleware' => 'withauth'], function() {
-    Route::post('/package', [\App\Http\Controllers\packageController::class,'createPackage']);
-    Route::post('/create-role', [\App\Http\Controllers\roleController::class,'createRole']);
-    Route::post('/create-permission', [\App\Http\Controllers\roleController::class,'createPermission']);
-    Route::post('/assign-role', [\App\Http\Controllers\roleController::class,'assignRole']);
-    Route::post('/assign-permission', [\App\Http\Controllers\roleController::class,'assignPermission']);
+Route::group(['prefix' => 'admin', 'middleware' => 'withauth'], function () {
+    Route::post('/package', [\App\Http\Controllers\packageController::class, 'createPackage']);
+    Route::post('/create-role', [\App\Http\Controllers\roleController::class, 'createRole']);
+    Route::post('/create-permission', [\App\Http\Controllers\roleController::class, 'createPermission']);
+    Route::post('/assign-role', [\App\Http\Controllers\roleController::class, 'assignRole']);
+    Route::post('/assign-permission', [\App\Http\Controllers\roleController::class, 'assignPermission']);
 
 });
 
-Route::group(['prefix' => 'user','middleware' => 'withauth'], function() {
-    Route::post('/order', [\App\Http\Controllers\orderController::class,'placeOrder']);
-    Route::post('/verify-order', [\App\Http\Controllers\orderController::class,'verifyOrder']);
-    Route::get('/orders', [\App\Http\Controllers\orderController::class,'getMyOrders']);
-    Route::post('/upgrade-package', [\App\Http\Controllers\orderController::class,'upgradePackage']);
-    Route::post('/verify-upgrade', [\App\Http\Controllers\orderController::class,'verifyUpgrade']);
+Route::group(['prefix' => 'user', 'middleware' => 'withauth'], function () {
+    Route::post('/order', [\App\Http\Controllers\orderController::class, 'placeOrder']);
+    Route::post('/verify-order', [\App\Http\Controllers\orderController::class, 'verifyOrder']);
+    Route::get('/orders', [\App\Http\Controllers\orderController::class, 'getMyOrders']);
+    Route::post('/upgrade-package', [\App\Http\Controllers\orderController::class, 'upgradePackage']);
+    Route::post('/verify-upgrade', [\App\Http\Controllers\orderController::class, 'verifyUpgrade']);
 
-    Route::group(['prefix' => 'wallet'], function() {
-//bank
-        Route::post('/bank-accounts', [\App\Http\Controllers\BankAccountController::class,'addBankAccount']);
-        Route::patch('/bank-accounts/{id}', [\App\Http\Controllers\BankAccountController::class,'editBankAccount']);
-//card
-        Route::post('/card-accounts', [\App\Http\Controllers\CardController::class,'addCardAccount']);
-        Route::patch('/card-accounts/{id}', [\App\Http\Controllers\CardController::class,'editCardAccount']);
+    Route::group(['prefix' => 'wallet'], function () {
+
+        //bank
+        Route::patch('/bank-accounts/{id}', [\App\Http\Controllers\BankAccountController::class, 'editBankAccount']);
+        Route::post('/bank-accounts', [\App\Http\Controllers\BankAccountController::class, 'addBankAccount']);
+
+        //card
+        Route::patch('/card-accounts/{id}', [\App\Http\Controllers\CardController::class, 'editCardAccount']);
+        Route::post('/card-accounts', [\App\Http\Controllers\CardController::class, 'addCardAccount']);
+
+    });
+    Route::group(['prefix' => 'identity'], function () {
+        //    nid
+        Route::patch('/nid-information/{id}', [\App\Http\Controllers\NidController::class, 'editNidInformation']);
+        Route::post('/nid-information', [\App\Http\Controllers\NidController::class, 'addNidInformation']);
 
     });
 

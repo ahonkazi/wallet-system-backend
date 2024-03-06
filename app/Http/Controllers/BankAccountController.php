@@ -35,7 +35,7 @@ class BankAccountController extends Controller
             $bankAccount->account_type = $request->account_type;
             $bankAccount->account_name = $request->account_name;
             $bankAccount->save();
-            return response()->json(['message' => 'Bank account added.', 'bank' => $bankAccount], 500);
+            return response()->json(['message' => 'Bank account added.', 'bank' => $bankAccount], 201);
 
         } catch (\Exception $exception) {
             return response()->json(['message' => 'Something went wrong.'], 500);
