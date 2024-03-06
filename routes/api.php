@@ -28,5 +28,7 @@ Route::group(['prefix' => 'user','middleware' => 'withauth'], function() {
     Route::post('/order', [\App\Http\Controllers\orderController::class,'placeOrder']);
     Route::post('/verify-order', [\App\Http\Controllers\orderController::class,'verifyOrder']);
     Route::get('/orders', [\App\Http\Controllers\orderController::class,'getMyOrders']);
+    Route::post('/upgrade-package', [\App\Http\Controllers\orderController::class,'upgradePackage']);
+    Route::post('/verify-upgrade', [\App\Http\Controllers\orderController::class,'verifyUpgrade']);
 
 });

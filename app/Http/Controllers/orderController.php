@@ -78,18 +78,61 @@ class orderController extends Controller
             'success_url' => 'string|required',
             'cancel_url'=>'string|required'
         ]);
-        $user_id = Auth::user();
+        $user = Auth::user();
         // check package id validity
         $package = Package::where('id', $request->package_id)->first();
         if (!$package) {
             return response()->json(['message' => 'No package found.'], 404);
         }
-        $order = Order::where('package_id',$request->package_id)->where('user_id',$user_id)->first();
+        $order = Order::where('package_id',$request->package_id)->where('user_id',$user->id)->first();
         if($order){
             return response()->json(['message' => 'The order has been purchased by you.'], 409);
         }
+        // create new order
+        $session = $this->createOrderAndCheckoutSession($request,$user,$package);
+        if($session['status']==200){
+            return response()->json(['session'=>$session['data']],200);
+        }else{
+            return response()->json(['message'=>'Something went wrong'],500);
+
+        }
+
 
     }
+
+    public function verifyUpgrade(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'string|required',
+            'session_id' => 'string|required'
+        ]);
+
+//               verify order id
+        $order_id = decrypt($request->order_id);
+        $user_id = Auth::user()->id;
+        $order = Order::where('id', $order_id)->where('user_id', $user_id)->first();
+        if (!$order) {
+            return response()->json(['message' => "Order id not found"], 404);
+        }
+        $stripe = new StripeClient(env('STRIPE_SECRET'));
+        $session = $stripe->checkout->sessions->retrieve($request->session_id);
+
+        if($session['status']=='complete'){
+            $order->status = 'complete';
+            $order->save();
+            $allOrders = Order::all()->where('user_id',$user_id)->whereNotIn('id',[$order->id]);
+            foreach ($allOrders as $o){
+               $o->delete();
+            }
+
+            return response()->json(['message' => 'Order completed.','order'=>$order],200);
+
+        }
+
+
+    }
+
+
 
     public function getAllOrders(Request $request)
     {
