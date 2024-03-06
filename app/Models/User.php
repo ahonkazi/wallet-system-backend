@@ -21,7 +21,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role_id',
         'gender',
         'image',
         'phone',
@@ -38,7 +37,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
+    protected $guard_name = 'api';
     /**
      * The attributes that should be cast.
      *

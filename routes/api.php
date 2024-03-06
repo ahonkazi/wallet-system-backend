@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-  
+Route::group(['prefix' => 'auth'], function() {
+    Route::post('/register', [\App\Http\Controllers\authController::class,'register']);
+  	Route::post('/login', [\App\Http\Controllers\authController::class,'login']);
+});
+
+Route::group(['prefix' => 'admin'], function() {
+    Route::post('/boot', [\App\Http\Controllers\roleController::class,'createRole']);
 });
