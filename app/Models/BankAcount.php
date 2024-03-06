@@ -9,11 +9,12 @@ class BankAcount extends Model
 {
     use HasFactory;
 
-    protected fillable=[
-'user_id',
-'account_number',
-'bank_ifsc',
-'account_type',
-]
+    protected $fillable = [
+        'user_id',
+        'account_number',
+        'bank_ifsc',
+        'account_type',
+        'account_name'
+    ];
 
 }

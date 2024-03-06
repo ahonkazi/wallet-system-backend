@@ -26,7 +26,6 @@ Route::group(['prefix' => 'admin','middleware' => 'withauth'], function() {
     Route::post('/assign-role', [\App\Http\Controllers\roleController::class,'assignRole']);
     Route::post('/assign-permission', [\App\Http\Controllers\roleController::class,'assignPermission']);
 
-
 });
 
 Route::group(['prefix' => 'user','middleware' => 'withauth'], function() {
@@ -35,4 +34,11 @@ Route::group(['prefix' => 'user','middleware' => 'withauth'], function() {
     Route::get('/orders', [\App\Http\Controllers\orderController::class,'getMyOrders']);
     Route::post('/upgrade-package', [\App\Http\Controllers\orderController::class,'upgradePackage']);
     Route::post('/verify-upgrade', [\App\Http\Controllers\orderController::class,'verifyUpgrade']);
+
+    Route::group(['prefix' => 'wallet'], function() {
+        Route::post('/bank-accounts', [\App\Http\Controllers\BankAccountController::class,'addBankAccount']);
+        Route::patch('/bank-accounts/{id}', [\App\Http\Controllers\BankAccountController::class,'editBankAccount']);
+    });
+
+
 });
