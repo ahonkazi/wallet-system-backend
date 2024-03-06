@@ -23,6 +23,8 @@ class roleController extends Controller
          public function assignRole(Request $request)
      {
          // code...
+
+         
      } 
 
            public function assignPermission(Request $request)

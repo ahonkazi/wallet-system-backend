@@ -34,7 +34,7 @@ class packageController extends Controller
             $package = new Package();
             $package->name   = $request->name;
             $package->price = $request->price;
-            $package->discounted_price = $request->input('discounted_price',0.0);
+            $package->discounted_price = $request->input('discounted_price',null);
             $package->description = $request->input('description','');
             $package->save();
 

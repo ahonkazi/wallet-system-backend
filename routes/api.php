@@ -21,5 +21,12 @@ Route::group(['prefix' => 'auth'], function() {
 
 Route::group(['prefix' => 'admin','middleware' => 'withauth'], function() {
     Route::post('/package', [\App\Http\Controllers\packageController::class,'createPackage']);
-    
+
+});
+
+Route::group(['prefix' => 'user','middleware' => 'withauth'], function() {
+    Route::post('/order', [\App\Http\Controllers\orderController::class,'placeOrder']);
+    Route::post('/verify-order', [\App\Http\Controllers\orderController::class,'verifyOrder']);
+    Route::get('/orders', [\App\Http\Controllers\orderController::class,'getMyOrders']);
+
 });
