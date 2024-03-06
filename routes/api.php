@@ -21,6 +21,7 @@ Route::group(['prefix' => 'auth'], function() {
 
 Route::group(['prefix' => 'admin','middleware' => 'withauth'], function() {
     Route::post('/package', [\App\Http\Controllers\packageController::class,'createPackage']);
+    Route::post('/create-role', [\App\Http\Controllers\roleController::class,'createRole']);
 
 });
 
@@ -30,5 +31,4 @@ Route::group(['prefix' => 'user','middleware' => 'withauth'], function() {
     Route::get('/orders', [\App\Http\Controllers\orderController::class,'getMyOrders']);
     Route::post('/upgrade-package', [\App\Http\Controllers\orderController::class,'upgradePackage']);
     Route::post('/verify-upgrade', [\App\Http\Controllers\orderController::class,'verifyUpgrade']);
-
 });

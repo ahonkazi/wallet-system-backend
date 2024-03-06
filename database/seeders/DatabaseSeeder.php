@@ -51,6 +51,6 @@ class DatabaseSeeder extends Seeder
         $role->syncPermissions($permissions);
 
         $user->assignRole([$role->id]);
-         $role = Role::create(['name' => 'user']);
+        Role::create(['name' => 'user']);
     }
 }
