@@ -45,7 +45,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'withauth'], function () {
         Route::post('/card-accounts', [\App\Http\Controllers\CardController::class, 'addCardAccount']);
 
     });
-    Route::group(['prefix' => 'identity'], function () {
+    Route::group(['prefix' => 'identity','middleware'=>'IdentityMiddleware'], function () {
         //    nid
         Route::patch('/nid-information/{id}', [\App\Http\Controllers\NidController::class, 'editNidInformation']);
         Route::post('/nid-information', [\App\Http\Controllers\NidController::class, 'addNidInformation']);
