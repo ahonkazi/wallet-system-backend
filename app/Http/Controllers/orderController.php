@@ -55,8 +55,16 @@ class orderController extends Controller
             'order_id' => 'string|required',
             'session_id' => 'string|required'
         ]);
+        $user = Auth::user();
+        $running_package = Order::where('user_id', $user->id)->where('status','complete')->first();
+        if ($running_package) {
+
+            return response()->json(['message' => 'One package is already running.'], 409);
+        }
 
 //               verify order id
+
+
         $order_id = decrypt($request->order_id);
         $user_id = Auth::user()->id;
         $order = Order::where('id', $order_id)->where('user_id', $user_id)->first();
