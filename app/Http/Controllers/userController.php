@@ -35,11 +35,59 @@ class userController extends Controller
         return response()->json([
             'user' => $user,
             'logged_in' => true,
-            'roles'=>$roles,
-            'permissions'=>$permissions,
-            'can_see_identity_section'=>$showIdentitySection
+            'roles' => $roles,
+            'permissions' => $permissions,
+            'can_see_identity_section' => $showIdentitySection
 
         ], 200);
+
+    }
+
+    public function editUserInformation(Request $request)
+    {
+        $request->validate([
+            'name'=>'string',
+            'gender'=>'string',
+            'phone'=>'string',
+            'date_of_birth'=>'date',
+            'address'=>'string'
+
+        ]);
+
+        $user = Auth::user();
+        try {
+            if ($request->has('name')) {
+                $user->name = $request->name;
+            }
+
+            if ($request->has('gender')) {
+                $user->gender = $request->gender;
+            }
+
+            if ($request->has('phone')) {
+                $user->phone = $request->phone;
+            }
+
+            if ($request->has('date_of_birth')) {
+                $user->date_of_birth = $request->date_of_birth;
+            }
+            if ($request->has('address')) {
+                $user->address = $request->address;
+            }
+
+            $user->save();
+            return response()->json(['message' => 'Updated successfully.', 'user' => $user], 200);
+
+        } catch (\Exception $exception) {
+            return response()->json(['message' => 'Something went wrong.'], 500);
+
+        }
+
+    }
+
+    public function getUserInformation(Request $request){
+        $user = Auth::user();
+        return response()->json(['user' => $user], 200);
 
     }
 }

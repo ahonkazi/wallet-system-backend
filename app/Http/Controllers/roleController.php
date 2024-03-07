@@ -63,9 +63,14 @@ class roleController extends Controller
         if (!$admin->can('assign-role')) {
             return response()->json(['message' => 'You are not allowed to create permission'], 401);
         }
-        $user->assignRole([$role->id]);
-        return response()->json(['message' => 'Role assigned to user','user'=>$user,'role'=>$role], 200);
+        try {
+            $user->assignRole([$role->id]);
+            return response()->json(['message' => 'Role assigned to user','user'=>$user,'role'=>$role], 200);
 
+        }catch (\Exception $exception){
+            return response()->json(['message' => 'Something went wrong.'], 500);
+
+        }
 
 
     }

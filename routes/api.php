@@ -28,6 +28,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'withauth'], function () {
 });
 
 Route::group(['prefix' => 'user', 'middleware' => 'withauth'], function () {
+    Route::patch('/basic-information', [\App\Http\Controllers\userController::class, 'editUserInformation']);
+    Route::get('/basic-information', [\App\Http\Controllers\userController::class, 'editUserInformation']);
     Route::get('/settings', [\App\Http\Controllers\userController::class, 'getUserSettings']);
     Route::post('/order', [\App\Http\Controllers\orderController::class, 'placeOrder']);
     Route::post('/verify-order', [\App\Http\Controllers\orderController::class, 'verifyOrder']);
