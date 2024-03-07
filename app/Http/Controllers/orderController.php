@@ -88,6 +88,11 @@ class orderController extends Controller
         if($order){
             return response()->json(['message' => 'The order has been purchased by you.'], 409);
         }
+        $pendingOrder = Order::where('status','pending')->where('user_id',$user->id)->first();
+        if($pendingOrder){
+            return response()->json(['message' => 'Another order is pending,so you can not upgrade now.'], 409);
+        }
+
         // create new order
         $session = $this->createOrderAndCheckoutSession($request,$user,$package);
         if($session['status']==200){
