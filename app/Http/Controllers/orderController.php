@@ -56,11 +56,11 @@ class orderController extends Controller
             'session_id' => 'string|required'
         ]);
         $user = Auth::user();
-        $running_package = Order::where('user_id', $user->id)->where('status','complete')->first();
-        if ($running_package) {
+        // $running_package = Order::where('user_id', $user->id)->where('status','complete')->first();
+        // if ($running_package) {
 
-            return response()->json(['message' => 'One package is already running.'], 409);
-        }
+        //     return response()->json(['message' => 'One package is already running.','pkg'=>$running_package], 409);
+        // }
 
 //               verify order id
 
@@ -105,6 +105,19 @@ class orderController extends Controller
         if($pendingOrder){
             return response()->json(['message' => 'Another order is pending,so you can not upgrade now.'], 409);
         }
+
+        $lastOrder = Order::where('status','complete')->where('user_id',$user->id)->first();
+        if(!$lastOrder){
+            return response()->json(['message' => 'You can not upgrade now.'], 404);
+        }
+        $price = $package->price;
+        if(isset($package->discounted_price) && $package->discounted_price>0){
+            $price = $package->discounted_price;
+        }
+        if($lastOrder->price>$price){
+             return response()->json(['message' => 'You can not downgrade package.'], 401);
+        }
+
 
         // create new order
         $session = $this->createOrderAndCheckoutSession($request,$user,$package);

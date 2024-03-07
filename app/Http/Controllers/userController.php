@@ -18,12 +18,11 @@ class userController extends Controller
         $showIdentitySection = false;
         $roles = $user->getRoleNames();
         $packages = Package::all();
-        $orders = $user->orders;
         $user_order = Order::where('user_id', $user->id)->where('status', 'complete')->first();
         $highest_price = 0;
         foreach ($packages as $package) {
             $effective_price = $package->price;
-            if (isset($package->discounted_price) && $package->discounted_price < $package->price) {
+            if (isset($package->discounted_price) &&($package->discounted_price >0) && $package->discounted_price < $package->price) {
                 $effective_price = $package->discounted_price;
             }
             $highest_price = max($highest_price, $effective_price);
@@ -39,7 +38,7 @@ class userController extends Controller
             'roles' => $roles,
             'permissions' => $permissions,
             'can_see_identity_section' => $showIdentitySection,
-            'orders'=>$orders
+            'orders'=>$user->orders
 
         ], 200);
 
