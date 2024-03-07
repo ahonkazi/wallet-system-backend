@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 class authController extends Controller
 {
     //
@@ -14,7 +15,7 @@ class authController extends Controller
         // code...
         $request->validate([
             'name'=>'string|required',
-            'email'=>'string|required|unique:users',
+            'email'=>'email|required|unique:users',
             'password'=>'string|min:6|max:16|required',
             'gender'=>'string',
             'address'=>'string',
@@ -56,7 +57,7 @@ class authController extends Controller
     {
         // code...
         $request->validate([
-            'email'=>'string|required',
+            'email'=>'email|required',
             'password'=>'string|min:6|max:16|required',
 
         ]);
@@ -77,4 +78,13 @@ class authController extends Controller
      
     }
 
+
+public function logout(Request $request)
+{
+    // code...
+    $user = Auth::user();
+    $user->currentAccessToken()->delete();
+            return response()->json(['message'=>'Logged out successfull.'],200);
+
+}
 }

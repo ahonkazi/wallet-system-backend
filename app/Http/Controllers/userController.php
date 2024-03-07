@@ -14,10 +14,11 @@ class userController extends Controller
     public function getUserSettings(Request $request)
     {
         $user = Auth::user();
-        $permissions = $user->getAllPermissions();
+        $permissions = $user->getAllPermissions()->pluck('name');
         $showIdentitySection = false;
         $roles = $user->getRoleNames();
         $packages = Package::all();
+        $orders = $user->orders;
         $user_order = Order::where('user_id', $user->id)->where('status', 'complete')->first();
         $highest_price = 0;
         foreach ($packages as $package) {
@@ -37,7 +38,8 @@ class userController extends Controller
             'logged_in' => true,
             'roles' => $roles,
             'permissions' => $permissions,
-            'can_see_identity_section' => $showIdentitySection
+            'can_see_identity_section' => $showIdentitySection,
+            'orders'=>$orders
 
         ], 200);
 

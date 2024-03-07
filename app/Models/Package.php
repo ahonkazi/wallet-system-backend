@@ -12,8 +12,12 @@ protected $fillable =[
         'name',
         'price',
         'discounted_price',
-'description',
+        'description',
 ];
 
+public function features()
+{
+   return $this->hasMany(PackageFeatures::class);
+}
 
 }

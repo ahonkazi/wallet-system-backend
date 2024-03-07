@@ -22,8 +22,13 @@ class orderController extends Controller
             'cancel_url'=>'string|required'
         ]);
         $user = Auth::user();
-        $running_package = Order::where('user_id', $user->id)->first();
+        $pendingOrder = Order::where('user_id', $user->id)->where('status','pending')->first();
+        if($pendingOrder){
+            $pendingOrder->delete();
+        }
+        $running_package = Order::where('user_id', $user->id)->where('status','complete')->first();
         if ($running_package) {
+
             return response()->json(['message' => 'One package is already running.'], 409);
         }
 
@@ -32,7 +37,7 @@ class orderController extends Controller
         if (!$package) {
             return response()->json(['message' => 'No package found.'], 404);
         }
-
+      
         // create new order
        $session = $this->createOrderAndCheckoutSession($request,$user,$package);
         if($session['status']==200){

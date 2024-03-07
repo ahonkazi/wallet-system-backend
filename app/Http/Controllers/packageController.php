@@ -58,4 +58,12 @@ class packageController extends Controller
        }
 
      } 
+
+     public function getPackages(Request $request)
+     {
+         // code...
+
+        $packages = Package::with('features')->get();
+          return response()->json(['packages'=>$packages],202);
+     }
 }

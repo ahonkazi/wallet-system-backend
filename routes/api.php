@@ -16,6 +16,14 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'auth'], function () {
     Route::post('/register', [\App\Http\Controllers\authController::class, 'register']);
     Route::post('/login', [\App\Http\Controllers\authController::class, 'login']);
+
+});
+
+
+Route::group(['prefix' => 'public'], function () {
+    Route::get('/packages', [\App\Http\Controllers\packageController::class, 'getPackages']);
+ 
+
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'withauth'], function () {
@@ -29,6 +37,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'withauth'], function () {
 
 Route::group(['prefix' => 'user', 'middleware' => 'withauth'], function () {
     Route::patch('/basic-information', [\App\Http\Controllers\userController::class, 'editUserInformation']);
+    Route::post('/logout', [\App\Http\Controllers\authController::class, 'logout']);
     Route::get('/basic-information', [\App\Http\Controllers\userController::class, 'editUserInformation']);
     Route::get('/settings', [\App\Http\Controllers\userController::class, 'getUserSettings']);
     Route::post('/order', [\App\Http\Controllers\orderController::class, 'placeOrder']);
