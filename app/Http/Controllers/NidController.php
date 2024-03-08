@@ -91,4 +91,10 @@ class NidController extends Controller
         }
 
     }
+
+     public function getNidInformation(Request $request){
+        $user = Auth::user();
+        return response()->json(['nid' => $user->nid_information], 200);
+
+    }
 }

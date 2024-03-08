@@ -79,4 +79,9 @@ class PassportController extends Controller
         }
 
     }
+
+    public function getPassportInformation(Request $request)
+    {
+           $user = Auth::user();
+        return response()->json(['nid' => $user->passport_information], 200);    }
 }

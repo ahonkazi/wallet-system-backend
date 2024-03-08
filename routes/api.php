@@ -19,7 +19,6 @@ Route::group(['prefix' => 'auth'], function () {
 
 });
 
-
 Route::group(['prefix' => 'public'], function () {
     Route::get('/packages', [\App\Http\Controllers\packageController::class, 'getPackages']);
 
@@ -32,7 +31,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'withauth'], function () {
     Route::post('/create-permission', [\App\Http\Controllers\roleController::class, 'createPermission']);
     Route::post('/assign-role', [\App\Http\Controllers\roleController::class, 'assignRole']);
     Route::post('/assign-permission', [\App\Http\Controllers\roleController::class, 'assignPermission']);
-
+    Route::get('/users',[\App\Http\Controllers\userController::class,'getAllUser']);
 });
 
 Route::group(['prefix' => 'user', 'middleware' => 'withauth'], function () {
@@ -62,10 +61,12 @@ Route::group(['prefix' => 'user', 'middleware' => 'withauth'], function () {
         //    nid
         Route::patch('/nid-information/{id}', [\App\Http\Controllers\NidController::class, 'editNidInformation']);
         Route::post('/nid-information', [\App\Http\Controllers\NidController::class, 'addNidInformation']);
+         Route::get('/nid-information', [\App\Http\Controllers\NidController::class, 'getNidInformation']);
      //    passport
         Route::patch('/passport-information/{id}', [\App\Http\Controllers\PassportController::class, 'editPassportInformation']);
         Route::post('/passport-information', [\App\Http\Controllers\PassportController::class, 'addPassportInformation']);
 
+Route::get('/passport-information', [\App\Http\Controllers\PassportController::class, 'getPassportInformation']);
     });
 
 

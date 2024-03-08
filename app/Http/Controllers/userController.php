@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Package;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -49,7 +50,7 @@ class userController extends Controller
         $request->validate([
             'name'=>'string',
             'gender' => [
-                'string', 
+                'string',
                 Rule::in(['male', 'female', 'others','Male','Female','Others']),
             ],
             'phone'=>'string',
@@ -92,6 +93,16 @@ class userController extends Controller
     public function getUserInformation(Request $request){
         $user = Auth::user();
         return response()->json(['user' => $user], 200);
+
+    }
+
+    public function getAllUser(Request $request){
+        $user = Auth::user();
+        if(!$user->can('user-list')){
+            return response()->json(['message'=>'Access denied.'],401);
+        }
+        $users = User::with("roles")->whereHas("roles")->get();
+        return response()->json(['users'=>$users],200);
 
     }
 }
