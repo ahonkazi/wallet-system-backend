@@ -6,7 +6,7 @@ use App\Models\Order;
 use App\Models\Package;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Validation\Rule;
 class userController extends Controller
 {
     //
@@ -48,7 +48,10 @@ class userController extends Controller
     {
         $request->validate([
             'name'=>'string',
-            'gender'=>'string',
+            'gender' => [
+                'string', 
+                Rule::in(['male', 'female', 'others','Male','Female','Others']),
+            ],
             'phone'=>'string',
             'date_of_birth'=>'date',
             'address'=>'string'
