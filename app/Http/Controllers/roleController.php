@@ -47,25 +47,31 @@ class roleController extends Controller
     {
         $request->validate([
             'user_id' => 'numeric|required',
-            'role_id'=>'numeric|required'
+            'role_names' => 'required|array',
+
         ]);
+        $admin = Auth::user();
+        if (!$admin->can('assign-role')) {
+            return response()->json(['message' => 'You are not allowed to assign role.'], 401);
+        }
         $user = User::where('id', $request->user_id)->first();
         if (!$user) {
             return response()->json(['message' => 'No user found.'], 404);
 
         }
-        $role = Role::where('id', $request->role_id)->first();
-        if (!$role) {
-            return response()->json(['message' => 'No role found.'], 404);
 
+        $role_list = [];
+        foreach ($request->role_names as $r) {
+            $role = Role::where('name', $r)->first();
+            if ($role) {
+                array_push($role_list,$r);
+            }
         }
-        $admin = Auth::user();
-        if (!$admin->can('assign-role')) {
-            return response()->json(['message' => 'You are not allowed to create permission'], 401);
-        }
+
+
         try {
-            $user->assignRole([$role->id]);
-            return response()->json(['message' => 'Role assigned to user','user'=>$user,'role'=>$role], 200);
+            $user->syncRoles($role_list);
+            return response()->json(['message' => 'Role assigned to user','user'=>$user,'roles'=>$role_list], 200);
 
         }catch (\Exception $exception){
             return response()->json(['message' => 'Something went wrong.'], 500);
@@ -79,7 +85,7 @@ class roleController extends Controller
     {
         $request->validate([
             'role_id' => 'required',
-            'permission_id'=>'required'
+            'permission_id' => 'required'
         ]);
         $permission = Permission::where('id', $request->permission_id)->first();
         if (!$permission) {
@@ -98,5 +104,15 @@ class roleController extends Controller
         $role->givePermissionTo($permission);
         return response()->json(['message' => 'Permission assigned'], 200);
 
+    }
+
+    public function getRoleList(Request $request)
+    {
+        $admin = Auth::user();
+        if (!$admin->can('role-list')) {
+            return response()->json(['roles' => []], 200);
+        }
+        $roles = Role::all();
+        return response()->json(['roles' => $roles], 200);
     }
 }

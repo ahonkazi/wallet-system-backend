@@ -30,6 +30,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'withauth'], function () {
     Route::post('/create-role', [\App\Http\Controllers\roleController::class, 'createRole']);
     Route::post('/create-permission', [\App\Http\Controllers\roleController::class, 'createPermission']);
     Route::post('/assign-role', [\App\Http\Controllers\roleController::class, 'assignRole']);
+    Route::get('/roles', [\App\Http\Controllers\roleController::class, 'getRoleList']);
     Route::post('/assign-permission', [\App\Http\Controllers\roleController::class, 'assignPermission']);
     Route::get('/users',[\App\Http\Controllers\userController::class,'getAllUser']);
 });
