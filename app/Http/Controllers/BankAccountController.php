@@ -85,4 +85,10 @@ class BankAccountController extends Controller
         }
 
     }
+
+    public function getBankAccount(Request $request){
+        $user = Auth::user();
+        return response()->json(['bank' => $user->bank_account], 200);
+
+    }
 }

@@ -22,7 +22,7 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['prefix' => 'public'], function () {
     Route::get('/packages', [\App\Http\Controllers\packageController::class, 'getPackages']);
- 
+
 
 });
 
@@ -50,10 +50,13 @@ Route::group(['prefix' => 'user', 'middleware' => 'withauth'], function () {
         //bank
         Route::patch('/bank-accounts/{id}', [\App\Http\Controllers\BankAccountController::class, 'editBankAccount']);
         Route::post('/bank-accounts', [\App\Http\Controllers\BankAccountController::class, 'addBankAccount']);
+        Route::get('/bank-accounts', [\App\Http\Controllers\BankAccountController::class, 'getBankAccount']);
 
         //card
         Route::patch('/card-accounts/{id}', [\App\Http\Controllers\CardController::class, 'editCardAccount']);
         Route::post('/card-accounts', [\App\Http\Controllers\CardController::class, 'addCardAccount']);
+        Route::get('/card-accounts', [\App\Http\Controllers\CardController::class, 'getCardInformation']);
+
     });
     Route::group(['prefix' => 'identity','middleware'=>'IdentityMiddleware'], function () {
         //    nid

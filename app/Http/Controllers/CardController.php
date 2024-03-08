@@ -91,4 +91,10 @@ class CardController extends Controller
         }
 
     }
+
+    public function getCardInformation(Request $request){
+        $user = Auth::user();
+        return response()->json(['card' => $user->card_information], 200);
+
+    }
 }
